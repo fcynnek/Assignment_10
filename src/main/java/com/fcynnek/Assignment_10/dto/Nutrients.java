@@ -2,39 +2,39 @@ package com.fcynnek.Assignment_10.dto;
 
 public class Nutrients {
 
-	private String name;
-	private Integer amount;
-	private String unit;
-	private Integer percentOfDailyNeeds;
+	private Double calories;
+	private Double protein;
+	private Double fat;
+	private Double carbohydrates;
+
+	
+	
+	public Double getCalories() {
+		return calories;
+	}
+	public Double getProtein() {
+		return protein;
+	}
+	public Double getFat() {
+		return fat;
+	}
+	public Double getCarbohydrates() {
+		return carbohydrates;
+	}
 	
 	
 	
-	public String getName() {
-		return name;
+	public void setCalories(Double calories) {
+		this.calories = calories;
 	}
-	public Integer getAmount() {
-		return amount;
+	public void setProtein(Double protein) {
+		this.protein = protein;
 	}
-	public String getUnit() {
-		return unit;
+	public void setFat(Double fat) {
+		this.fat = fat;
 	}
-	public Integer getPercentOfDailyNeeds() {
-		return percentOfDailyNeeds;
-	}
-	
-	
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	public void setAmount(Integer amount) {
-		this.amount = amount;
-	}
-	public void setUnit(String unit) {
-		this.unit = unit;
-	}
-	public void setPercentOfDailyNeeds(Integer percentOfDailyNeeds) {
-		this.percentOfDailyNeeds = percentOfDailyNeeds;
+	public void setCarbohydrates(Double carbohydrates) {
+		this.carbohydrates = carbohydrates;
 	}
 	
 }

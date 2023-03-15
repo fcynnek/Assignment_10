@@ -2,6 +2,7 @@ package com.fcynnek.Assignment_10.api;
 
 import java.net.URI;
 
+import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -15,6 +16,7 @@ public class SpoonacularIntegration {
 	* f86c8e27d2b84f2fac40c3c0974a933f 
 	*/
 	
+	@Test
 	public void callSpoonacularApi() {
 		RestTemplate rt = new RestTemplate();
 		
@@ -24,14 +26,22 @@ public class SpoonacularIntegration {
 										.build()
 										.toUri();
 		
-		// Request Example:
-		// https://api.spoonacular.com/recipes/extract?
-		// url=https://foodista.com/recipe/ZHK4KPB6/chocolate-crinkle-cookies
+		/*
+		 *  Requests: Generate a meal plan with three meals per day (breakfast, lunch, and dinner).
+		 *  https://api.spoonacular.com/mealplanner/generate
+		 *  
+		 *  Response Headers: 
+		 *  Content-Type: application/json
+		 *  
+		 *  Parameters
+		 *  timeFrame		<String>			"day"	/ 	"week"
+		 *  targetCalories	<Integer>		# numeric value #
+		 *  diet			<String>			https://spoonacular.com/food-api/docs#Diets
+		 *  exclude			<String>			Example: shellfish, olives
+		 */
 		
-		// https://api.spoonacular.com/mealplanner/{username}/week/{start-date}
-		
-		// https://api.spoonacular.com/mealplanner/{username}/day/{date}
 		ResponseEntity<DayResponse> dayMeals = rt.getForEntity(uri, DayResponse.class);
+		System.out.println(dayMeals);
 		
 	}
 }
