@@ -2,7 +2,7 @@ package com.fcynnek.Assignment_10.dto;
 
 import java.util.List;
 
-public class Week {
+public class DayResponse {
 
 	private List<Meals> meals;
 	private Nutrients nutrients;
