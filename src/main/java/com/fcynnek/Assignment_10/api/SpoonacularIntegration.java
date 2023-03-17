@@ -11,24 +11,21 @@ import com.fcynnek.Assignment_10.dto.DayResponse;
 import com.fcynnek.Assignment_10.dto.WeekResponse;
 
 public class SpoonacularIntegration {
-
-	/* 
-	* API Key from Spoonacular:
-	* f86c8e27d2b84f2fac40c3c0974a933f 
-	*/
 	
+	RestTemplate rt = new RestTemplate();
 //	@Test
 	public void callSpoonacularApi() {
-		RestTemplate rt = new RestTemplate();
 		
 		
-//		URI uri = UriComponentsBuilder.fromHttpUrl("https://api.spoonacular.com/recipes/716429/information")
-		URI uriDay = UriComponentsBuilder.fromHttpUrl("https://api.spoonacular.com/mealplanner/generate")
-										.queryParam("apiKey", "f86c8e27d2b84f2fac40c3c0974a933f")
-										.build()
-										.toUri();
+		getDayMeals(rt);
+		
+		getWeekMeals(rt);
+	}
 		
 		/*
+		 *  API Key from Spoonacular:
+		 *  f86c8e27d2b84f2fac40c3c0974a933f 
+		 * 
 		 *  Requests: Generate a meal plan with three meals per day (breakfast, lunch, and dinner).
 		 *  https://api.spoonacular.com/mealplanner/generate
 		 *  
@@ -37,15 +34,32 @@ public class SpoonacularIntegration {
 		 *  
 		 *  Parameters
 		 *  timeFrame		<String>			"day"	/ 	"week"
-		 *  targetCalories	<Integer>		# numeric value #
+		 *  targetCalories	<Integer>			# numeric value #
 		 *  diet			<String>			https://spoonacular.com/food-api/docs#Diets
 		 *  exclude			<String>			Example: shellfish, olives
 		 */
+	
+	public DayResponse getDayMeals(RestTemplate rt) {
+		URI uri = UriComponentsBuilder.fromHttpUrl("https://api.spoonacular.com/mealplanner/generate")
+										.queryParam("apiKey", "f86c8e27d2b84f2fac40c3c0974a933f")
+										.queryParam("timeFrame", "day")
+										.build()
+										.toUri();
 		
 		ResponseEntity<DayResponse> dayMeals = rt.getForEntity(uri, DayResponse.class);
-		System.out.println(dayMeals);
-		
-//		ResponseEntity<WeekResponse> weekMeals = rt.getForEntity(uri, WeekResponse.class);
-		
+//		System.out.println(dayMeals);
+		return dayMeals.getBody();
 	}
+	
+	public WeekResponse getWeekMeals(RestTemplate rt) {
+		URI uri = UriComponentsBuilder.fromHttpUrl("https://api.spoonacular.com/mealplanner/generate")
+										.queryParam("apiKey", "f86c8e27d2b84f2fac40c3c0974a933f")
+										.queryParam("timeFrame", "week")
+										.build()
+										.toUri();
+		
+		ResponseEntity<WeekResponse> weekMeals = rt.getForEntity(uri, WeekResponse.class);
+		return weekMeals.getBody();
+	}
+
 }

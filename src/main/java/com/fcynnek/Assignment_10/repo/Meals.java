@@ -1,4 +1,4 @@
-package com.fcynnek.Assignment_10.dto;
+package com.fcynnek.Assignment_10.repo;
 
 public class Meals {
 
