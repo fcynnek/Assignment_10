@@ -33,8 +33,13 @@ public class MealController {
 	}
 
 	@GetMapping("mealplanner/day")
-	public ResponseEntity<DayResponse> getDayMeals(String numCalories, String diet, String exclusions) {
-		return null;
+	public ResponseEntity<DayResponse> getDayMeals() {
+//			@RequestParam("numCalories") String numCalories, 
+//			@RequestParam("diet") String diet, 
+//			@RequestParam("exclusions") String exclusions) {
+		RestTemplate rt = new RestTemplate();
+		DayResponse dayMeals = apiService.getSpoonacularAPI().getDayMeals(rt);
+		return ResponseEntity.ok(dayMeals);
 		
 	}
 }

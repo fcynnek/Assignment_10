@@ -6,6 +6,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fcynnek.Assignment_10.api.SpoonacularIntegration;
 import com.fcynnek.Assignment_10.dto.WeekResponse;
+import com.google.gson.Gson;
 
 @Service
 public class ApiService {
@@ -17,6 +18,7 @@ public class ApiService {
 	}
 	
 	ObjectMapper mapper = new ObjectMapper();
+	Gson gson = new Gson();
 	
 	RestTemplate rt = new RestTemplate();
 	
@@ -24,7 +26,9 @@ public class ApiService {
 		return spoonacularAPI;
 	}
 	
-	WeekResponse weekMeals = mapper.readValues(spoonacularAPI.getWeekMeals(rt), WeekResponse.class);
+//	WeekResponse weekMeals = mapper.readValues(spoonacularAPI.getWeekMeals(rt), WeekResponse.class);
+//	String weekMeals = gson.toString();
+//	String dayMeals = gson.toString();
 	
 	public void setSpoonacularAPI(SpoonacularIntegration spoonacularAPI) {
 		this.spoonacularAPI = spoonacularAPI;

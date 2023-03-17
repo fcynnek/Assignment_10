@@ -1,8 +1,10 @@
 package com.fcynnek.Assignment_10.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class WeekResponse {
 
-//	@JsonProperty("week")
+//	@JsonProperty("monday")
 	private DayResponse monday;
 	private DayResponse tuesday;
 	private DayResponse wednesday;

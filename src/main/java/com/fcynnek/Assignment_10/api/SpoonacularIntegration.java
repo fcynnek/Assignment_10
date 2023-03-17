@@ -16,7 +16,6 @@ public class SpoonacularIntegration {
 //	@Test
 	public void callSpoonacularApi() {
 		
-		
 		getDayMeals(rt);
 		
 		getWeekMeals(rt);
@@ -34,7 +33,7 @@ public class SpoonacularIntegration {
 		 *  
 		 *  Parameters
 		 *  timeFrame		<String>			"day"	/ 	"week"
-		 *  targetCalories	<Integer>			# numeric value #
+		 *  targetCalories	<Integer>		# numeric value #
 		 *  diet			<String>			https://spoonacular.com/food-api/docs#Diets
 		 *  exclude			<String>			Example: shellfish, olives
 		 */
