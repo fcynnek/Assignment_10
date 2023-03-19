@@ -16,9 +16,6 @@ public class SpoonacularIntegration {
 //	@Test
 	public void callSpoonacularApi() {
 		
-		getDayMeals(rt);
-		
-		getWeekMeals(rt);
 	}
 		
 		/*
@@ -39,14 +36,17 @@ public class SpoonacularIntegration {
 		 */
 	
 	public DayResponse getDayMeals(RestTemplate rt) {
+//	public DayResponse getDayMeals(RestTemplate rt, Integer targetCalories, String diet, String exclude) {
 		URI uri = UriComponentsBuilder.fromHttpUrl("https://api.spoonacular.com/mealplanner/generate")
 										.queryParam("apiKey", "f86c8e27d2b84f2fac40c3c0974a933f")
 										.queryParam("timeFrame", "day")
+//										.queryParam("targetCalories", 2000)
+//										.queryParam("diet", "vegetarian")
+//										.queryParam("exclude", "pineapple,olives")
 										.build()
 										.toUri();
 		
 		ResponseEntity<DayResponse> dayMeals = rt.getForEntity(uri, DayResponse.class);
-//		System.out.println(dayMeals);
 		return dayMeals.getBody();
 	}
 	

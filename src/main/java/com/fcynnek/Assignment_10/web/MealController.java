@@ -21,25 +21,29 @@ public class MealController {
 	@Autowired
 	private ApiService apiService;
 	
+	RestTemplate rt = new RestTemplate();
+	
 	@GetMapping("mealplanner/week")
 	public ResponseEntity<WeekResponse> getWeekMeals() {
 //			@RequestParam("numCalories") String numCalories, 
 //			@RequestParam("diet") String diet, 
 //			@RequestParam("exclusions") String exclusions) {
-		RestTemplate rt = new RestTemplate();
-		WeekResponse weekMeals = apiService.getSpoonacularAPI().getWeekMeals(rt);
-		return ResponseEntity.ok(weekMeals);
+		
+		ApiService apiService = appContext.getBean(ApiService.class);
+		WeekResponse weekResponse = apiService.getWeekMeals();
+		return ResponseEntity.ok(weekResponse);
 		
 	}
 
 	@GetMapping("mealplanner/day")
 	public ResponseEntity<DayResponse> getDayMeals() {
-//			@RequestParam("numCalories") String numCalories, 
+//			@RequestParam("numCalories") Integer numCalories, 
 //			@RequestParam("diet") String diet, 
 //			@RequestParam("exclusions") String exclusions) {
-		RestTemplate rt = new RestTemplate();
-		DayResponse dayMeals = apiService.getSpoonacularAPI().getDayMeals(rt);
-		return ResponseEntity.ok(dayMeals);
+		
+		ApiService apiService = appContext.getBean(ApiService.class);
+		DayResponse dayResponse = apiService.getDayMeals();
+		return ResponseEntity.ok(dayResponse);
 		
 	}
 }

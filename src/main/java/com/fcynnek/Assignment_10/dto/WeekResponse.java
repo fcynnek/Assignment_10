@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class WeekResponse {
 
-//	@JsonProperty("monday")
 	private DayResponse monday;
 	private DayResponse tuesday;
 	private DayResponse wednesday;
