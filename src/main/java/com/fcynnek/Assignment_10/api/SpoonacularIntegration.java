@@ -13,10 +13,6 @@ import com.fcynnek.Assignment_10.dto.WeekResponse;
 public class SpoonacularIntegration {
 	
 	RestTemplate rt = new RestTemplate();
-//	@Test
-	public void callSpoonacularApi() {
-		
-	}
 		
 		/*
 		 *  API Key from Spoonacular:
@@ -51,9 +47,13 @@ public class SpoonacularIntegration {
 	}
 	
 	public WeekResponse getWeekMeals(RestTemplate rt) {
+//	public WeekResponse getWeekMeals(RestTemplate rt, Integer targetCalories, String diet, String exclude) {
 		URI uri = UriComponentsBuilder.fromHttpUrl("https://api.spoonacular.com/mealplanner/generate")
 										.queryParam("apiKey", "f86c8e27d2b84f2fac40c3c0974a933f")
 										.queryParam("timeFrame", "week")
+//										.queryParam("targetCalories", 2000)
+//										.queryParam("diet", "vegetarian")
+//										.queryParam("exclude", "pineapple,olives")
 										.build()
 										.toUri();
 		
