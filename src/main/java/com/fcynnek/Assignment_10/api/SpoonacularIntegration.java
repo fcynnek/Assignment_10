@@ -24,21 +24,20 @@ public class SpoonacularIntegration {
 		 *  Response Headers: 
 		 *  Content-Type: application/json
 		 *  
-		 *  Parameters
+		 *  Parameters:
 		 *  timeFrame		<String>			"day"	/ 	"week"
 		 *  targetCalories	<Integer>		# numeric value #
 		 *  diet			<String>			https://spoonacular.com/food-api/docs#Diets
 		 *  exclude			<String>			Example: shellfish, olives
 		 */
 	
-	public DayResponse getDayMeals(RestTemplate rt) {
-//	public DayResponse getDayMeals(RestTemplate rt, Integer targetCalories, String diet, String exclude) {
+	public DayResponse getDayMeals(RestTemplate rt, String numCalories, String diet, String exclusions) {
 		URI uri = UriComponentsBuilder.fromHttpUrl("https://api.spoonacular.com/mealplanner/generate")
 										.queryParam("apiKey", "f86c8e27d2b84f2fac40c3c0974a933f")
 										.queryParam("timeFrame", "day")
-//										.queryParam("targetCalories", 2000)
-//										.queryParam("diet", "vegetarian")
-//										.queryParam("exclude", "pineapple,olives")
+										.queryParam("targetCalories", numCalories)
+										.queryParam("diet", diet)
+										.queryParam("exclude", exclusions)
 										.build()
 										.toUri();
 		
@@ -46,14 +45,13 @@ public class SpoonacularIntegration {
 		return dayMeals.getBody();
 	}
 	
-	public WeekResponse getWeekMeals(RestTemplate rt) {
-//	public WeekResponse getWeekMeals(RestTemplate rt, Integer targetCalories, String diet, String exclude) {
+	public WeekResponse getWeekMeals(RestTemplate rt, String numCalories, String diet, String exclusions) {
 		URI uri = UriComponentsBuilder.fromHttpUrl("https://api.spoonacular.com/mealplanner/generate")
 										.queryParam("apiKey", "f86c8e27d2b84f2fac40c3c0974a933f")
 										.queryParam("timeFrame", "week")
-//										.queryParam("targetCalories", 2000)
-//										.queryParam("diet", "vegetarian")
-//										.queryParam("exclude", "pineapple,olives")
+										.queryParam("targetCalories", numCalories)
+										.queryParam("diet", diet)
+										.queryParam("exclude", exclusions)
 										.build()
 										.toUri();
 		

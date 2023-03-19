@@ -24,7 +24,7 @@ public class MealController {
 	RestTemplate rt = new RestTemplate();
 	
 	@GetMapping("mealplanner/week")
-	public ResponseEntity<WeekResponse> getWeekMeals() {
+	public ResponseEntity<WeekResponse> getWeekMeals(String numCalories, String diet, String exclusions) {
 //			@RequestParam("numCalories") String numCalories, 
 //			@RequestParam("diet") String diet, 
 //			@RequestParam("exclusions") String exclusions) {
@@ -36,7 +36,7 @@ public class MealController {
 	}
 
 	@GetMapping("mealplanner/day")
-	public ResponseEntity<DayResponse> getDayMeals() {
+	public ResponseEntity<DayResponse> getDayMeals(String numCalories, String diet, String exclusions) {
 //			@RequestParam("numCalories") Integer numCalories, 
 //			@RequestParam("diet") String diet, 
 //			@RequestParam("exclusions") String exclusions) {

@@ -11,6 +11,14 @@ public class Meals {
 	
 	
 	
+	@Override
+	public String toString() {
+		return "Meals [id=" + id + ", imageType=" + imageType + ", title=" + title + ", readyInMinutes="
+				+ readyInMinutes + ", servings=" + servings + ", sourceUrl=" + sourceUrl + "]";
+	}
+	
+	
+	
 	public Long getId() {
 		return id;
 	}
