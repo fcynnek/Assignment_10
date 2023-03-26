@@ -33,7 +33,12 @@ public class ApiService {
 	Gson gson = new Gson();
 	
 	RestTemplate rt = new RestTemplate();
-	DayResponse dayResponse = spoonacularAPI.getDayMeals(rt, "2000", "vegan", "pineapples,olives");
+
+	private String numCalories = "500";
+	private String diet = null;
+	private String exclusions = null;
+	DayResponse dayResponse = spoonacularAPI.getDayMeals(rt, numCalories, diet, exclusions);
+//	WeekResponse weekResponse = spoonacularAPI.getWeekMeals(rt, numCalories, diet, exclusions);
 	
 	public DayResponse getDayMeals() {
 		Meals meals = new Meals();

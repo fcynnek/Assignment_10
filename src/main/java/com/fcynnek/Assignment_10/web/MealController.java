@@ -23,11 +23,13 @@ public class MealController {
 	
 	RestTemplate rt = new RestTemplate();
 	
+	//String numCalories, String diet, String exclusions) {
+	
 	@GetMapping("mealplanner/week")
-	public ResponseEntity<WeekResponse> getWeekMeals(String numCalories, String diet, String exclusions) {
-//			@RequestParam("numCalories") String numCalories, 
-//			@RequestParam("diet") String diet, 
-//			@RequestParam("exclusions") String exclusions) {
+	public ResponseEntity<WeekResponse> getWeekMeals(
+			@RequestParam(value="numCalories", required=false) String numCalories, 
+			@RequestParam(value="diet", required=false) String diet, 
+			@RequestParam(value="exclusions", required=false) String exclusions) {
 		
 		ApiService apiService = appContext.getBean(ApiService.class);
 		WeekResponse weekResponse = apiService.getWeekMeals();
@@ -36,10 +38,10 @@ public class MealController {
 	}
 
 	@GetMapping("mealplanner/day")
-	public ResponseEntity<DayResponse> getDayMeals(String numCalories, String diet, String exclusions) {
-//			@RequestParam("numCalories") Integer numCalories, 
-//			@RequestParam("diet") String diet, 
-//			@RequestParam("exclusions") String exclusions) {
+	public ResponseEntity<DayResponse> getDayMeals(
+			@RequestParam(value="numCalories", required=false) String numCalories, 
+			@RequestParam(value="diet", required=false) String diet, 
+			@RequestParam(value="exclusions", required=false) String exclusions) {
 		
 		ApiService apiService = appContext.getBean(ApiService.class);
 		DayResponse dayResponse = apiService.getDayMeals();
