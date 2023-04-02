@@ -34,7 +34,7 @@ public class ApiService {
 	
 	RestTemplate rt = new RestTemplate();
 
-	private String numCalories = "500";
+	private String numCalories = null;
 	private String diet = null;
 	private String exclusions = null;
 	DayResponse dayResponse = spoonacularAPI.getDayMeals(rt, numCalories, diet, exclusions);
@@ -82,7 +82,7 @@ public class ApiService {
 		parsedNutrients.setFat(fat);
 		parsedNutrients.setCarbohydrates(carbohydrates);
 		
-		DayResponse dayResponse = new DayResponse();
+//		DayResponse dayResponse = new DayResponse();
 		dayResponse.setMeals(parsedMeals);
 		dayResponse.setNutrients(parsedNutrients);
 		

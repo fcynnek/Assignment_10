@@ -68,5 +68,9 @@ public class SpoonacularIntegration {
 		ResponseEntity<WeekResponse> weekMeals = rt.getForEntity(uri, WeekResponse.class);
 		return weekMeals.getBody();
 	}
+	
+	public DayResponse getDayResponse() {
+		return null;
+	}
 
 }
