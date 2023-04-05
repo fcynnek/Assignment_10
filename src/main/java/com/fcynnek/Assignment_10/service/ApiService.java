@@ -37,11 +37,11 @@ public class ApiService {
 	private String numCalories = null;
 	private String diet = null;
 	private String exclusions = null;
-	DayResponse dayResponse = spoonacularAPI.getDayMeals(rt, numCalories, diet, exclusions);
-//	WeekResponse weekResponse = spoonacularAPI.getWeekMeals(rt, numCalories, diet, exclusions);
+	WeekResponse weekResponse = spoonacularAPI.getWeekMeals(rt, numCalories, diet, exclusions);
 	
 	public DayResponse getDayMeals() {
 		Meals meals = new Meals();
+		DayResponse dayResponse = spoonacularAPI.getDayMeals(rt, numCalories, diet, exclusions);
 		
 		JsonObject jsonObject = gson.fromJson(gson.toJson(dayResponse), JsonObject.class);
 		JsonArray mealsArray = jsonObject.getAsJsonArray("meals");
