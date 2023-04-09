@@ -32,7 +32,7 @@ public class MealController {
 			@RequestParam(value="exclusions", required=false) String exclusions) {
 		
 		ApiService apiService = appContext.getBean(ApiService.class);
-		WeekResponse weekResponse = apiService.getWeekMeals();
+		WeekResponse weekResponse = apiService.getWeekMeals(numCalories, diet, exclusions);
 		return ResponseEntity.ok(weekResponse);
 		
 	}
@@ -44,7 +44,7 @@ public class MealController {
 			@RequestParam(value="exclusions", required=false) String exclusions) {
 		
 		ApiService apiService = appContext.getBean(ApiService.class);
-		DayResponse dayResponse = apiService.getDayMeals();
+		DayResponse dayResponse = apiService.getDayMeals(numCalories, diet, exclusions);
 		return ResponseEntity.ok(dayResponse);
 		
 	}

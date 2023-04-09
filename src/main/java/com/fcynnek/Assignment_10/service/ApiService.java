@@ -34,16 +34,37 @@ public class ApiService {
 	
 	RestTemplate rt = new RestTemplate();
 
-	private String numCalories = null;
-	private String diet = null;
-	private String exclusions = null;
-	WeekResponse weekResponse = spoonacularAPI.getWeekMeals(rt, numCalories, diet, exclusions);
+//	private String numCalories = null;
+//	private String diet = null;
+//	private String exclusions = null;
 	
-	public DayResponse getDayMeals() {
-		Meals meals = new Meals();
+	
+	public DayResponse getDayMeals(String numCalories, String diet, String exclusions) {
 		DayResponse dayResponse = spoonacularAPI.getDayMeals(rt, numCalories, diet, exclusions);
 		
 		JsonObject jsonObject = gson.fromJson(gson.toJson(dayResponse), JsonObject.class);
+		parsingMealsAndNutrientsFromJson(dayResponse, jsonObject);
+		
+		return dayResponse;
+	}
+
+
+	
+	public WeekResponse getWeekMeals(String numCalories, String diet, String exclusions) {
+		WeekResponse weekResponse = spoonacularAPI.getWeekMeals(rt, numCalories, diet, exclusions);
+		
+		JsonObject jsonObject = gson.fromJson(gson.toJson(weekResponse), JsonObject.class);
+		DayResponse dayResponse = new DayResponse();
+		parsingMealsAndNutrientsFromJson(dayResponse, jsonObject);
+		
+//		weekResponse.setWeek(weekArray);
+		
+		return weekResponse;
+		
+		
+	}
+	
+	public void parsingMealsAndNutrientsFromJson(DayResponse dayResponse, JsonObject jsonObject) {
 		JsonArray mealsArray = jsonObject.getAsJsonArray("meals");
 		
 		List<Meals> parsedMeals = new ArrayList<>();
@@ -82,25 +103,7 @@ public class ApiService {
 		parsedNutrients.setFat(fat);
 		parsedNutrients.setCarbohydrates(carbohydrates);
 		
-//		DayResponse dayResponse = new DayResponse();
 		dayResponse.setMeals(parsedMeals);
 		dayResponse.setNutrients(parsedNutrients);
-		
-		return dayResponse;
-	}
-	
-	public WeekResponse getWeekMeals() {
-		WeekResponse weekResponse = new WeekResponse();
-		
-		weekResponse.setMonday(getDayMeals());
-		weekResponse.setTuesday(getDayMeals());
-		weekResponse.setWednesday(getDayMeals());
-		weekResponse.setThursday(getDayMeals());
-		weekResponse.setFriday(getDayMeals());
-		weekResponse.setSaturday(getDayMeals());
-		weekResponse.setSunday(getDayMeals());
-		
-		return weekResponse;
-		
 	}
 }
