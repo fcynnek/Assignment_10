@@ -42,9 +42,8 @@ public class ApiService {
 	
 	public DayResponse getDayMeals(String numCalories, String diet, String exclusions) {
 		DayResponse dayResponse = spoonacularAPI.getDayMeals(rt, numCalories, diet, exclusions);
-		
-		JsonObject dayObject = gson.fromJson(gson.toJson(dayResponse), JsonObject.class);
-		JsonArray mealsArray = dayObject.getAsJsonArray("meals");
+		JsonObject dayObj = gson.fromJson(gson.toJson(dayResponse), JsonObject.class);
+		JsonArray mealsArray = dayObj.getAsJsonArray("meals");
 		
 		List<Meals> parsedMeals = new ArrayList<>();
 		
@@ -68,41 +67,68 @@ public class ApiService {
 			
 			parsedMeals.add(parsedMeal);
 		}
-		// fix this to parse the nutrients and set them
-		// then extract into its own method
-		//then call this 7 times for the week
-		Nutrients nutrients = dayResponse.getNutrients();
 		
-		Double calories = nutrients.getCalories();
-		Double protein = nutrients.getProtein();
-		Double fat = nutrients.getFat();
-		Double carbohydrates = nutrients.getCarbohydrates();
+		JsonObject nutrientObject = dayObj.getAsJsonObject("nutrients");
 		
-		Nutrients parsedNutrients = new Nutrients();
-		parsedNutrients.setCalories(calories);
-		parsedNutrients.setProtein(protein);
-		parsedNutrients.setFat(fat);
-		parsedNutrients.setCarbohydrates(carbohydrates);
+		Double calories = nutrientObject.get("calories").getAsDouble();
+		Double protein = nutrientObject.get("protein").getAsDouble();
+		Double fat = nutrientObject.get("fat").getAsDouble();
+		Double carbohydrates = nutrientObject.get("carbohydrates").getAsDouble();
 		
+		Nutrients parsedNutrient = new Nutrients();
+		parsedNutrient.setCalories(calories);
+		parsedNutrient.setProtein(protein);
+		parsedNutrient.setFat(fat);
+		parsedNutrient.setCarbohydrates(carbohydrates);
+				
 		dayResponse.setMeals(parsedMeals);
-		dayResponse.setNutrients(parsedNutrients);
 		
 		return dayResponse;
 	}
 
-
 	
 	public WeekResponse getWeekMeals(String numCalories, String diet, String exclusions) {
 		WeekResponse weekResponse = spoonacularAPI.getWeekMeals(rt, numCalories, diet, exclusions);
-		
 		JsonObject jsonObject = gson.fromJson(gson.toJson(weekResponse), JsonObject.class);
 		JsonObject weeksObj = jsonObject.getAsJsonObject("week");
 //		JsonArray mealsArray = jsonObject.getAsJsonArray("week");
 		
 		
-		List<Meals> parsedMeals = new ArrayList<>();
-		
 		JsonArray mondayMealsArray = weeksObj.getAsJsonObject("monday").getAsJsonArray("meals");
+		parseAndSetMealsAndNutrients(weekResponse, mondayMealsArray);
+		
+		JsonArray tuesdayMealsArray = weeksObj.getAsJsonObject("tuesday").getAsJsonArray("meals");
+		parseAndSetMealsAndNutrients(weekResponse, tuesdayMealsArray);
+		
+		JsonArray wednesdayMealsArray = weeksObj.getAsJsonObject("wednesday").getAsJsonArray("meals");
+		parseAndSetMealsAndNutrients(weekResponse, wednesdayMealsArray);
+		
+		JsonArray thursdayMealsArray = weeksObj.getAsJsonObject("thursday").getAsJsonArray("meals");
+		parseAndSetMealsAndNutrients(weekResponse, thursdayMealsArray);
+		
+		JsonArray fridayMealsArray = weeksObj.getAsJsonObject("friday").getAsJsonArray("meals");
+		parseAndSetMealsAndNutrients(weekResponse, fridayMealsArray);
+		
+		JsonArray saturdayMealsArray = weeksObj.getAsJsonObject("saturday").getAsJsonArray("meals");
+		parseAndSetMealsAndNutrients(weekResponse, saturdayMealsArray);
+		
+		JsonArray sundayMealsArray = weeksObj.getAsJsonObject("sunday").getAsJsonArray("meals");
+		parseAndSetMealsAndNutrients(weekResponse, sundayMealsArray);
+		
+		return weekResponse;
+		
+		
+	}
+
+
+
+	private void parseAndSetMealsAndNutrients(WeekResponse weekResponse, JsonArray mealsArray) {
+		
+		JsonObject jsonObject = gson.fromJson(gson.toJson(weekResponse), JsonObject.class);
+		JsonObject weeksObj = jsonObject.getAsJsonObject("week");
+//		JsonArray mealsArray = weeksObj.getAsJsonArray("meals");
+		
+		List<Meals> parsedMeals = new ArrayList<>();
 		
 		for (JsonElement mealElement : mealsArray) {
 			JsonObject mealsObject = mealElement.getAsJsonObject();
@@ -124,25 +150,22 @@ public class ApiService {
 			
 			parsedMeals.add(parsedMeal);
 		}
+		
+		JsonObject nutrientObject = weeksObj.getAsJsonObject("nutrients");
+		
+		Double calories = nutrientObject.get("calories").getAsDouble();
+		Double protein = nutrientObject.get("protein").getAsDouble();
+		Double fat = nutrientObject.get("fat").getAsDouble();
+		Double carbohydrates = nutrientObject.get("carbohydrates").getAsDouble();
+		
+		Nutrients parsedNutrient = new Nutrients();
+		parsedNutrient.setCalories(calories);
+		parsedNutrient.setProtein(protein);
+		parsedNutrient.setFat(fat);
+		parsedNutrient.setCarbohydrates(carbohydrates);
+		
 		DayResponse dayResponse = new DayResponse();
-		Nutrients nutrients = dayResponse.getNutrients();
-		
-		Double calories = nutrients.getCalories();
-		Double protein = nutrients.getProtein();
-		Double fat = nutrients.getFat();
-		Double carbohydrates = nutrients.getCarbohydrates();
-		
-		Nutrients parsedNutrients = new Nutrients();
-		parsedNutrients.setCalories(calories);
-		parsedNutrients.setProtein(protein);
-		parsedNutrients.setFat(fat);
-		parsedNutrients.setCarbohydrates(carbohydrates);
-		
 		dayResponse.setMeals(parsedMeals);
-		dayResponse.setNutrients(parsedNutrients);
-		
-		return weekResponse;
-		
 		
 	}
 	

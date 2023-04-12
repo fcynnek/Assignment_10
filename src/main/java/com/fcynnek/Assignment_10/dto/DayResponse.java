@@ -24,8 +24,8 @@ public class DayResponse {
 	public void setMeals(List<Meals> meals) {
 		this.meals = meals;
 	}
-	public void setNutrients(Nutrients nutrients) {
-		this.nutrients = nutrients;
+	public void setNutrients(Nutrients parsedNutrients) {
+		this.nutrients = parsedNutrients;
 	}
 	
 }
