@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fcynnek.Assignment_10.api.SpoonacularIntegration;
 import com.fcynnek.Assignment_10.dto.DayResponse;
@@ -91,11 +92,15 @@ public class ApiService {
 		WeekResponse weekResponse = spoonacularAPI.getWeekMeals(rt, numCalories, diet, exclusions);
 		JsonObject jsonObject = gson.fromJson(gson.toJson(weekResponse), JsonObject.class);
 		JsonObject weeksObj = jsonObject.getAsJsonObject("week");
-//		JsonArray mealsArray = jsonObject.getAsJsonArray("week");
+		ObjectMapper mapper = new ObjectMapper();
 		
 		
 		JsonArray mondayMealsArray = weeksObj.getAsJsonObject("monday").getAsJsonArray("meals");
+//		DayResponse mondayResponse = parseAndSetMealsAndNutrients(weekResponse, mondayMealsArray);
+//		weekResponse = mapper.readValues(mondayMealsArray, WeekResponse.class);
 		parseAndSetMealsAndNutrients(weekResponse, mondayMealsArray);
+//		Week.setMonday().setMeals(mondayResponse.setMeals());
+//	    weekResponse.getMonday().setNutrients(mondayResponse.getNutrients());
 		
 		JsonArray tuesdayMealsArray = weeksObj.getAsJsonObject("tuesday").getAsJsonArray("meals");
 		parseAndSetMealsAndNutrients(weekResponse, tuesdayMealsArray);
@@ -122,13 +127,22 @@ public class ApiService {
 
 
 
-	private void parseAndSetMealsAndNutrients(WeekResponse weekResponse, JsonArray mealsArray) {
+	private WeekResponse parseAndSetMealsAndNutrients(WeekResponse weekResponse, JsonArray mealsArray) {
 		
 		JsonObject jsonObject = gson.fromJson(gson.toJson(weekResponse), JsonObject.class);
 		JsonObject weeksObj = jsonObject.getAsJsonObject("week");
 //		JsonArray mealsArray = weeksObj.getAsJsonArray("meals");
-		
+		DayResponse dayResponse = new DayResponse();
 		List<Meals> parsedMeals = new ArrayList<>();
+		
+//		JsonElement weekObj = weeksObj.get("monday");
+		Week week = new Week();
+		for (JsonElement weekDay : mealsArray) {
+			JsonObject weekObj = weeksObj.getAsJsonObject();
+//			ObjectMapper mapper = new ObjectMapper();
+//			weekResponse = mapper.readValues(weekObj, WeekResponse.class);
+			weekResponse.setWeek(week);
+		}
 		
 		for (JsonElement mealElement : mealsArray) {
 			JsonObject mealsObject = mealElement.getAsJsonObject();
@@ -163,9 +177,9 @@ public class ApiService {
 		parsedNutrient.setProtein(protein);
 		parsedNutrient.setFat(fat);
 		parsedNutrient.setCarbohydrates(carbohydrates);
-		
-		DayResponse dayResponse = new DayResponse();
+				
 		dayResponse.setMeals(parsedMeals);
+		return weekResponse;
 		
 	}
 	
