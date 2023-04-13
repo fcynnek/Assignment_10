@@ -35,10 +35,6 @@ public class ApiService {
 	Gson gson = new Gson();
 	
 	RestTemplate rt = new RestTemplate();
-
-//	private String numCalories = null;
-//	private String diet = null;
-//	private String exclusions = null;
 	
 	
 	public DayResponse getDayMeals(String numCalories, String diet, String exclusions) {
@@ -92,57 +88,40 @@ public class ApiService {
 		WeekResponse weekResponse = spoonacularAPI.getWeekMeals(rt, numCalories, diet, exclusions);
 		JsonObject jsonObject = gson.fromJson(gson.toJson(weekResponse), JsonObject.class);
 		JsonObject weeksObj = jsonObject.getAsJsonObject("week");
-		ObjectMapper mapper = new ObjectMapper();
+		Week week = new Week();
 		
+		DayResponse mondayResponse = parseAndSetMealsAndNutrients(weeksObj.getAsJsonObject("monday"));
+		week.setMonday(mondayResponse);
 		
-		JsonArray mondayMealsArray = weeksObj.getAsJsonObject("monday").getAsJsonArray("meals");
-//		DayResponse mondayResponse = parseAndSetMealsAndNutrients(weekResponse, mondayMealsArray);
-//		weekResponse = mapper.readValues(mondayMealsArray, WeekResponse.class);
-		parseAndSetMealsAndNutrients(weekResponse, mondayMealsArray);
-//		Week.setMonday().setMeals(mondayResponse.setMeals());
-//	    weekResponse.getMonday().setNutrients(mondayResponse.getNutrients());
+		DayResponse tuesdayResponse = parseAndSetMealsAndNutrients(weeksObj.getAsJsonObject("tuesday"));
+		week.setTuesday(tuesdayResponse);
 		
-		JsonArray tuesdayMealsArray = weeksObj.getAsJsonObject("tuesday").getAsJsonArray("meals");
-		parseAndSetMealsAndNutrients(weekResponse, tuesdayMealsArray);
+		DayResponse wednesdayResponse = parseAndSetMealsAndNutrients(weeksObj.getAsJsonObject("wednesday"));
+		week.setWednesday(wednesdayResponse);
 		
-		JsonArray wednesdayMealsArray = weeksObj.getAsJsonObject("wednesday").getAsJsonArray("meals");
-		parseAndSetMealsAndNutrients(weekResponse, wednesdayMealsArray);
+		DayResponse thursdayResponse = parseAndSetMealsAndNutrients(weeksObj.getAsJsonObject("thursday"));
+		week.setThursday(thursdayResponse);
 		
-		JsonArray thursdayMealsArray = weeksObj.getAsJsonObject("thursday").getAsJsonArray("meals");
-		parseAndSetMealsAndNutrients(weekResponse, thursdayMealsArray);
+		DayResponse fridayResponse = parseAndSetMealsAndNutrients(weeksObj.getAsJsonObject("friday"));
+		week.setFriday(fridayResponse);
 		
-		JsonArray fridayMealsArray = weeksObj.getAsJsonObject("friday").getAsJsonArray("meals");
-		parseAndSetMealsAndNutrients(weekResponse, fridayMealsArray);
+		DayResponse saturdayResponse = parseAndSetMealsAndNutrients(weeksObj.getAsJsonObject("saturday"));
+		week.setSaturday(saturdayResponse);
 		
-		JsonArray saturdayMealsArray = weeksObj.getAsJsonObject("saturday").getAsJsonArray("meals");
-		parseAndSetMealsAndNutrients(weekResponse, saturdayMealsArray);
+		DayResponse sundayResponse = parseAndSetMealsAndNutrients(weeksObj.getAsJsonObject("sunday"));
+		week.setSunday(sundayResponse);
 		
-		JsonArray sundayMealsArray = weeksObj.getAsJsonObject("sunday").getAsJsonArray("meals");
-		parseAndSetMealsAndNutrients(weekResponse, sundayMealsArray);
+		weekResponse.setWeek(week);
 		
 		return weekResponse;
-		
 		
 	}
 
 
-
-	private WeekResponse parseAndSetMealsAndNutrients(WeekResponse weekResponse, JsonArray mealsArray) {
+	private DayResponse parseAndSetMealsAndNutrients(JsonObject dayObj) {
+		JsonArray mealsArray = dayObj.getAsJsonArray("meals");
 		
-		JsonObject jsonObject = gson.fromJson(gson.toJson(weekResponse), JsonObject.class);
-		JsonObject weeksObj = jsonObject.getAsJsonObject("week");
-//		JsonArray mealsArray = weeksObj.getAsJsonArray("meals");
-		DayResponse dayResponse = new DayResponse();
 		List<Meals> parsedMeals = new ArrayList<>();
-		
-//		JsonElement weekObj = weeksObj.get("monday");
-		Week week = new Week();
-		for (JsonElement weekDay : mealsArray) {
-			JsonObject weekObj = weeksObj.getAsJsonObject();
-//			ObjectMapper mapper = new ObjectMapper();
-//			weekResponse = mapper.readValues(weekObj, WeekResponse.class);
-			weekResponse.setWeek(week);
-		}
 		
 		for (JsonElement mealElement : mealsArray) {
 			JsonObject mealsObject = mealElement.getAsJsonObject();
@@ -165,7 +144,7 @@ public class ApiService {
 			parsedMeals.add(parsedMeal);
 		}
 		
-		JsonObject nutrientObject = weeksObj.getAsJsonObject("nutrients");
+		JsonObject nutrientObject = dayObj.getAsJsonObject("nutrients");
 		
 		Double calories = nutrientObject.get("calories").getAsDouble();
 		Double protein = nutrientObject.get("protein").getAsDouble();
@@ -178,8 +157,11 @@ public class ApiService {
 		parsedNutrient.setFat(fat);
 		parsedNutrient.setCarbohydrates(carbohydrates);
 				
+		DayResponse dayResponse = new DayResponse();
 		dayResponse.setMeals(parsedMeals);
-		return weekResponse;
+		dayResponse.setNutrients(parsedNutrient);
+		
+		return dayResponse;
 		
 	}
 	
